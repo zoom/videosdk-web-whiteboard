@@ -1,23 +1,16 @@
 import ZoomVideo, { event_peer_video_state_change, VideoPlayer, VideoQuality } from "@zoom/videosdk";
-import { generateSignature } from "./utils";
 import "./style.css";
 
-// You should sign your JWT with a backend service in a production use-case
-const sdkKey = import.meta.env.VITE_SDK_KEY as string;
-const sdkSecret = import.meta.env.VITE_SDK_SECRET as string;
-
 const videoContainer = document.querySelector('video-player-container') as HTMLElement;
-const topic = "TestOne";
-const role = 1;
+const sessionName = "TestOne";
 const username = `User-${String(new Date().getTime()).slice(6)}`;
 const client = ZoomVideo.createClient();
 await client.init("en-US", "Global", { patchJsMedia: true });
 
-const startCall = async () => {
-  // generate a token to join the session - in production this will be done by your backend
-  const token = generateSignature(topic, role, sdkKey, sdkSecret);
+// input a token to join the session - in production this will be done by your backend
+const startCall = async (token: string) => {
   client.on("peer-video-state-change", renderVideo);
-  await client.join(topic, token, username);
+  await client.join(sessionName, token, username);
   const mediaStream = client.getMediaStream();
   await mediaStream.startAudio();
   await mediaStream.startVideo();
@@ -63,14 +56,16 @@ const startBtn = document.querySelector("#start-btn") as HTMLButtonElement;
 const stopBtn = document.querySelector("#stop-btn") as HTMLButtonElement;
 const toggleVideoBtn = document.querySelector("#toggle-video-btn") as HTMLButtonElement;
 
+startBtn.innerHTML = `Join: ${sessionName}`
 startBtn.addEventListener("click", async () => {
-  if (!sdkKey || !sdkSecret) {
-    alert("Please enter SDK Key and SDK Secret in the .env file");
+  const token = window.prompt("Enter a token");
+  if (!token) {
+    alert("Please enter a token");
     return;
   }
   startBtn.innerHTML = "Connecting...";
   startBtn.disabled = true;
-  await startCall();
+  await startCall(token);
   startBtn.innerHTML = "Connected";
   startBtn.style.display = "none";
   stopBtn.style.display = "block";
@@ -82,7 +77,7 @@ stopBtn.addEventListener("click", async () => {
   await leaveCall();
   stopBtn.style.display = "none";
   startBtn.style.display = "block";
-  startBtn.innerHTML = "Join";
+  startBtn.innerHTML = `Join: ${sessionName}`
   startBtn.disabled = false;
 });
 
