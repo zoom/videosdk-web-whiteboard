@@ -1,14 +1,17 @@
-# Zoom Video SDK Web Hello World Sample
+# Zoom Video SDK Web Whiteboard Sample
 
 Use of this sample app is subject to our [Terms of Use](https://explore.zoom.us/en/video-sdk-terms/).
 
-The [Zoom Video SDK for web](https://developers.zoom.us/docs/video-sdk/web/) enables you to build custom video experiences on a webpage with Zoom's core technology.
+Video SDK Web sample app with whiteboard functionality. It shows joining a session, starting/stopping a live whiteboard presentation, viewing a presenter's whiteboard, and exporting the whiteboard to PDF.
 
 ## Installation
 
-To get started, clone the repo:
+Clone the repo and install dependencies:
 
-`git clone https://github.com/zoom/videosdk-web-helloworld.git`
+```bash
+git clone https://github.com/zoom/videosdk-web-whiteboard.git
+cd videosdk-web-whiteboard
+```
 
 ## Setup
 
@@ -28,6 +31,13 @@ To get started, clone the repo:
 
 1. In the prompt, input a JWT for your session name (default: "TestOne").
 
+1. Once connected, use the toolbar buttons:
+   - **Toggle Video** — start/stop your camera
+   - **Start Whiteboard** — open a collaborative whiteboard (appears on the left with video thumbnails on the right)
+   - **Stop Whiteboard** — close your whiteboard session
+   - **Export as PDF** — save the current whiteboard as a PDF file
+
+   When another participant starts a whiteboard, it automatically appears for all viewers. Late joiners will see an in-progress whiteboard.
 
 ## JWT Helper
 The project provides a `generateToken.ts` file that can be used to generate a temporary JWT:

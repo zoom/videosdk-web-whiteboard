@@ -27,3 +27,38 @@ video-player {
   height: auto;
   aspect-ratio: 16/9;
 }
+
+/* When whiteboard is active, layout side by side */
+body.whiteboard-active #content-area {
+  flex-direction: row;
+  gap: 8px;
+}
+
+body.whiteboard-active video-player-container {
+  width: 220px;
+  margin: 0;
+  display: flex !important;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+body.whiteboard-active video-player {
+  width: 220px;
+  height: auto;
+  aspect-ratio: 16/9;
+  flex-shrink: 0;
+}
+
+#whiteboard-container {
+  background-color: #fff;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+}
+
+body.whiteboard-active {
+  overflow: hidden;
+}

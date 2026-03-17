@@ -18,15 +18,22 @@
       Leave
     </button>
   </div>
-  <div class="flex flex-row self-center m-2">
+  <div class="flex flex-row self-center m-2 gap-2">
     <button id="toggle-video-btn" class="hidden bg-blue-500 text-white py-2 text-sm px-2 rounded w-48 self-center">
       Toggle Video
     </button>
+    <button id="whiteboard-btn" class="hidden bg-green-600 text-white py-2 text-sm px-2 rounded w-48 self-center">
+      Start Whiteboard
+    </button>
+    <button id="export-whiteboard-btn"
+      class="hidden bg-yellow-600 text-white py-2 text-sm px-2 rounded w-48 self-center">
+      Export as PDF
+    </button>
   </div>
-  <video-player-container></video-player-container>
-  <div class="text-center absolute bottom-2 w-full">
-    Do not expose your SDK Secret to the client, when using this in production
-    please make sure to use a backend service to sign tokens.
+  <div id="content-area" class="flex flex-col flex-1 min-h-0 mx-auto w-[95%]">
+    <div id="whiteboard-container" class="hidden border-2 border-gray-300 rounded-lg">
+    </div>
+    <video-player-container></video-player-container>
   </div>
   <script src="/coi-serviceworker.js"></script>
   <script type="module" src="/src/main.ts"></script>
