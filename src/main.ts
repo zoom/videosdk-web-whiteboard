@@ -6,7 +6,6 @@ const sessionName = "TestOne";
 const username = `User-${String(new Date().getTime()).slice(6)}`;
 const client = ZoomVideo.createClient();
 await client.init("en-US", "Global", { patchJsMedia: true });
-
 let whiteboardClient: ReturnType<typeof client.getWhiteboardClient>;
 
 // input a token to join the session - in production this will be done by your backend
@@ -17,8 +16,6 @@ const startCall = async (token: string) => {
   await mediaStream.startAudio();
   await mediaStream.startVideo();
   await renderVideo({ action: 'Start', userId: client.getCurrentUserInfo().userId });
-
-  // Initialize whiteboard
   whiteboardClient = client.getWhiteboardClient();
   setupWhiteboard();
 };
@@ -51,7 +48,7 @@ const setupWhiteboard = () => {
     return;
   }
 
-  whiteboardBtn.style.display = "block";
+  whiteboardBtn.style.display = "inline-flex";
 
   // Listen for whiteboard state changes from other participants
   client.on("peer-whiteboard-state-change", async (payload) => {
@@ -61,7 +58,7 @@ const setupWhiteboard = () => {
       await whiteboardClient.startWhiteboardView(whiteboardContainer, userId);
       whiteboardBtn.textContent = "Viewing Whiteboard";
       whiteboardBtn.disabled = true;
-      exportWhiteboardBtn.style.display = "block";
+      exportWhiteboardBtn.style.display = "inline-flex";
     } else if (action === "Stop") {
       await whiteboardClient.stopWhiteboardView();
       hideWhiteboard();
@@ -78,7 +75,7 @@ const setupWhiteboard = () => {
     whiteboardClient.startWhiteboardView(whiteboardContainer, presenter.userId);
     whiteboardBtn.textContent = "Viewing Whiteboard";
     whiteboardBtn.disabled = true;
-    exportWhiteboardBtn.style.display = "block";
+    exportWhiteboardBtn.style.display = "inline-flex";
   }
 };
 
@@ -93,7 +90,7 @@ const toggleWhiteboard = async () => {
     showWhiteboard();
     await whiteboardClient.startWhiteboardScreen(whiteboardContainer);
     whiteboardBtn.textContent = "Stop Whiteboard";
-    exportWhiteboardBtn.style.display = "block";
+    exportWhiteboardBtn.style.display = "inline-flex";
   }
 };
 
@@ -146,10 +143,9 @@ startBtn.addEventListener("click", async () => {
   startBtn.innerHTML = "Connecting...";
   startBtn.disabled = true;
   await startCall(token);
-  startBtn.innerHTML = "Connected";
   startBtn.style.display = "none";
-  stopBtn.style.display = "block";
-  toggleVideoBtn.style.display = "block";
+  stopBtn.style.display = "inline-flex";
+  toggleVideoBtn.style.display = "inline-flex";
 });
 
 stopBtn.addEventListener("click", async () => {
@@ -166,6 +162,4 @@ stopBtn.addEventListener("click", async () => {
 
 toggleVideoBtn.addEventListener("click", toggleVideo);
 whiteboardBtn.addEventListener("click", toggleWhiteboard);
-exportWhiteboardBtn.addEventListener("click", () => {
-  whiteboardClient.exportWhiteboard("pdf", `whiteboard-${sessionName}`);
-});
+exportWhiteboardBtn.addEventListener("click", () => whiteboardClient.exportWhiteboard("pdf", `whiteboard-${sessionName}`));

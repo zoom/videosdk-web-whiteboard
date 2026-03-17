@@ -4,6 +4,8 @@ Use of this sample app is subject to our [Terms of Use](https://explore.zoom.us/
 
 Video SDK Web sample app with whiteboard functionality. It shows joining a session, starting/stopping a live whiteboard presentation, viewing a presenter's whiteboard, and exporting the whiteboard to PDF.
 
+![](public/screenshot.jpg)
+
 ## Installation
 
 Clone the repo and install dependencies:
